@@ -1,10 +1,4 @@
-export interface Idiom {
-  id: number;
-  word: string;
-  frequency: number;
-  definition: string;
-  pinyin?: string;
-}
+import type { Idiom } from '../types';
 
 
 export const idioms: Idiom[] = [

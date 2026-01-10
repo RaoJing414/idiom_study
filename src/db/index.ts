@@ -1,23 +1,22 @@
-import { openDB } from 'idb';
+import { openDB, type IDBPDatabase } from 'idb';
+import type { Progress } from '../types';
 
 const DB_NAME = 'idiom_study_db';
 const STORE_NAME = 'progress';
 
-export interface Progress {
-  idiomId: number;
-  status: 'new' | 'learning' | 'mastered';
-  lastReviewed: number;
-  reviewCount: number;
-}
+let dbPromise: Promise<IDBPDatabase> | null = null;
 
-export async function initDB() {
-  return openDB(DB_NAME, 1, {
-    upgrade(db) {
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: 'idiomId' });
-      }
-    },
-  });
+export function initDB() {
+  if (!dbPromise) {
+    dbPromise = openDB(DB_NAME, 1, {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME, { keyPath: 'idiomId' });
+        }
+      },
+    });
+  }
+  return dbPromise;
 }
 
 export async function getProgress(id: number): Promise<Progress | undefined> {
@@ -27,7 +26,10 @@ export async function getProgress(id: number): Promise<Progress | undefined> {
 
 export async function updateProgress(progress: Progress) {
   const db = await initDB();
-  return db.put(STORE_NAME, progress);
+  const tx = db.transaction(STORE_NAME, 'readwrite');
+  const store = tx.objectStore(STORE_NAME);
+  await store.put(progress);
+  await tx.done;
 }
 
 export async function getAllProgress(): Promise<Progress[]> {
