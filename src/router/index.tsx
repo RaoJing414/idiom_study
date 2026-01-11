@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
 import Home from '../pages/Home';
 import Study from '../pages/Study';
@@ -6,7 +6,7 @@ import Quiz from '../pages/Quiz';
 import Share from '../pages/Share';
 import WrongCollection from '../pages/WrongCollection';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <MainLayout />,
@@ -33,6 +33,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-], {
-  basename: import.meta.env.BASE_URL,
-});
+]);

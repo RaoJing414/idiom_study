@@ -85,8 +85,37 @@ idiom-study-react/
 ```bash
 pnpm install
 pnpm run build   # 执行 TypeScript 类型检查与 Vite 打包
-pnpm run deploy  # 自动部署至 GitHub Pages 分支 (静态托管模拟服务器分发)
+pnpm run deploy  # 自动部署至 GitHub Pages (通过 gh-pages 脚本)
 ```
+
+#### 🌐 GitHub Pages 部署详解
+
+为了确保项目能顺利在 GitHub Pages 上运行，我们需要注意以下配置：
+
+1. **Vite 基础路径 (Base Path)**:
+   在 `vite.config.ts` 中，`base` 必须设置为你的仓库名称。例如：
+
+   ```ts
+   base: "/idiom_study/";
+   ```
+
+   这确保了打包后的 JS/CSS 资源路径能正确指向子目录。
+
+2. **路由模式兼容性 (HashRouter)**:
+   由于 GitHub Pages 不支持传统的内置后端重定向（SPA 路径在刷新页面时会报 404），本项目已切换为 **`createHashRouter`**。
+
+   - **优势**: URL 会变为 `.../#/study` 形式，这种路径完全由前端控制，在 GitHub Pages 刷新也不会丢失。
+
+3. **自动化部署流程**:
+   项目使用了 `gh-pages` 依赖项。运行 `pnpm run deploy` 时：
+
+   - 自动执行 `predeploy` (即 `pnpm run build`)。
+   - 将 `dist` 目录内容强行推送到远程仓库的 `gh-pages` 分支。
+
+4. **GitHub 仓库后台设置**:
+   - 打开 GitHub 仓库 -> **Settings** -> **Pages**。
+   - 在 **Build and deployment** -> **Branch** 下，选择 `gh-pages` 分支，目录选择 `/ (root)`。
+   - 保存后，稍等几分钟即可通过 GitHub 生成的链接访问。
 
 ### 方式二：局域网/本地运行 (Development & LAN)
 
