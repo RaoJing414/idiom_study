@@ -45,11 +45,19 @@ const MainLayout: React.FC = () => {
       </main>
 
       {!isHome && (
-        <nav className="bottom-nav">
+        <nav className="bottom-nav" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', paddingTop: '1rem' }}>
           <button className="btn btn-primary" onClick={() => navigate('/')}>
             <HomeIcon size={24} />
           </button>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.5 }}>
+            v0.0.2
+          </div>
         </nav>
+      )}
+      {isHome && (
+        <div style={{ textAlign: 'center', padding: '2rem 0', fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.5 }}>
+          v0.0.2
+        </div>
       )}
     </div>
   );

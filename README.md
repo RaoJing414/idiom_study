@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# 成语学习助手 (Idiom Study Assistant) `v0.0.2`
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个基于 React + TypeScript 构建的高颜值、功能完备的成语学习应用。本项目采用现代化的前端架构，通过 PWA、IndexedDB 和 GitHub Pages 技术，完美模拟了一个真实的生产环境应用。
 
-Currently, two official plugins are available:
+## 🌟 项目核心架构与作用
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+本项目不仅是一个前端界面展示，更是一个闭环的端到端应用模拟方案：
 
-## React Compiler
+### 1. 目录结构说明
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+├── api/          # 业务接口层：模拟后端 API 调用逻辑，封装进度管理、学习记录等功能
+├── db/           # 数据持久化层：基于 IndexedDB 的数据库初始化及基础 CRUD 操作
+├── data/         # 静态数据：内置 100+ 高频、重点及常考成语词库
+├── pages/        # 页面组件：Home (首页)、Study (学习卡片)、Quiz (多模式自测)、WrongCollection (错题集)
+├── components/   # 通用组件：包括全响应式布局 (MainLayout) 和微动画交互
+├── router/       # 路由管理：使用 react-router-dom 构建的多页面导航系统
+└── types/        # 类型定义：严格的 TypeScript 类型约束
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. 数据库仿真：IndexedDB 的后端骨架作用
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+为了在脱离服务器的情况下实现用户数据的持久化，本项目使用了 **IndexedDB** (通过 `idb` 库封装) 来模拟真实的生产环境数据库：
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **学习进度追踪**：每个成语的学习次数、查看详情、掌握状态。
+- **测试记录存储**：记录每次自测的对错情况，用于动态计算“错题集”。
+- **状态持久化**：即使刷新页面或在离线状态下，用户的学习足迹依然被保留，复刻了数据库的持久化能力。
+
+### 3. 服务器部署模拟：GitHub Pages 与 PWA
+
+虽然 GitHub Pages 是静态托管平台，但我们通过以下策略模拟了真实服务器的部署体验：
+
+- **静态资源分发**：利用 GitHub Pages 模拟 CDN 和静态 Web 服务器。
+- **PWA (Progressive Web App)**：通过 Service Worker 拦截网络请求，实现资源的本地离线缓存。即使在无网络环境下，应用也能像原生 App 一样秒开。
+- **环境隔离**：通过 `vite.config.ts` 中的 `base` 配置，处理 GitHub Pages 子路经部署问题，模拟复杂的生产环境部署路径。
+
+## 🚀 核心功能亮点
+
+- **多维分类学习**：提供“全部、重点、常见、一般”四种词库频率筛选，模拟真实的课程分组。
+- **浸入式学习卡片**：支持手动辅助/自动显示释义，内置平滑的交互动画。
+- **闭环复习系统**：
+  - **两种自测模式**：看着成语选释义 / 看着释义选成语。
+  - **动态错题集**：系统会自动抓取测试中的错项，支持针对性攻克，复习后自动移出。
+- **高颜值移动端体验**：采用毛玻璃特效 (Glassmorphism)、流畅的页面切场动画以及适配主流手机端的底部导航设计。
+
+## 🛠️ 技术栈清单
+
+- **框架**: React 19 + TypeScript
+- **构建工具**: Vite 7
+- **路由**: React Router 7
+- **动画**: Framer Motion
+- **数据库**: IndexedDB (idb)
+- **图标**: Lucide React
+- **部署**: GitHub Pages + gh-pages
+
+## 📖 如何快速运行
+
+1. **安装依赖**:
+   ```bash
+   pnpm install
+   ```
+2. **启动开发环境**:
+   ```bash
+   pnpm run dev
+   ```
+3. **构建并模拟部署**:
+   ```bash
+   pnpm run build   # 执行 TypeScript 检查并构建 dist
+   pnpm run deploy  # 推送到 GitHub Pages 分支完成模拟部署
+   ```
+
+---
+
+_本项目旨在展示如何利用现代 Web 技术，在 100% 离线和免费托管的情况下，构建出具备类似“后端+数据库”完整交互逻辑的高质量应用。_
+
+## todo
+
+- 错题集

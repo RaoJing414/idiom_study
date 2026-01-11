@@ -4,12 +4,12 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/idiom_study/',
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
         name: '成语学习助手',
         short_name: '成语助手',
@@ -27,6 +27,9 @@ export default defineConfig({
             type: 'image/png'
           }
         ]
+      },
+      workbox: {
+        cleanupOutdatedCaches: true,
       }
     })
   ],
