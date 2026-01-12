@@ -1,4 +1,4 @@
-# 成语学习助手 (Idiom Study Assistant) `v0.0.2`
+# 成语学习助手 (Idiom Study Assistant) `v0.0.3`
 
 一个基于 React 19 + TypeScript 构建的高颜值、功能完备的成语学习应用。本项目采用现代化的前端架构，通过 PWA、IndexedDB 等技术，完美模拟了一个具备完整“后端+数据库”逻辑的离线 Web 应用。
 
