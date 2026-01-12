@@ -5,6 +5,9 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vite.dev/config/
 export default defineConfig({
   base: '/idiom_study/',
+  server: {
+    host: '0.0.0.0'
+  },
   plugins: [
     react(),
     VitePWA({

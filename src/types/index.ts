@@ -4,6 +4,7 @@ export interface Idiom {
   frequency: number;
   definition: string;
   pinyin?: string;
+  options?: string[];
 }
 
 export interface Progress {
