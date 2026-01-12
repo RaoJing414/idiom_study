@@ -2,7 +2,14 @@
   --primary: #3b82f6;
   --primary-rgb: 59, 130, 246;
   --primary-glow: rgba(59, 130, 246, 0.5);
-  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  /* 原背景色 */
+  /* --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); */
+  --bg-gradient: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.7) 0%,
+      rgba(30, 41, 59, 0.8) 100%
+    ),
+    url("./assets/bg.png");
   --card-bg: rgba(255, 255, 255, 0.05);
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.1);
@@ -20,6 +27,9 @@
 body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   background: var(--bg-gradient);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: var(--text-main);
   min-height: 100vh;
   display: flex;
